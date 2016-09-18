@@ -1,6 +1,5 @@
 const activeNotes = {};
-const count = 0;
-
+const history = [];
 
 const noteToFreq = (note) => {
   return 440 * Math.pow(2,(note-69)/12);
@@ -9,17 +8,22 @@ const noteToFreq = (note) => {
 const onMidiMessage = (context, e) => {
   const note = event.data[1];
   const freq = noteToFreq(note);
+  const now = Date.now();
+
   switch (e.data[0] & 0xf0) {
     case 0x90:
       if (event.data[2]!=0) {
         const voice = createNote(context, freq);
         activeNotes[note] = voice;
-        voice.play();
+        voice.play(now);
       }
       break;
 
     case 0x80:
-      activeNotes[note].stop();
+      const stoppedVoice = activeNotes[note];
+      stoppedVoice.stop(now);
+      history.push(stoppedVoice);
+
       break;
   }
 }
@@ -27,22 +31,46 @@ const onMidiMessage = (context, e) => {
 const createNote = (context, freq) => {
   const oscillator = context.createOscillator();
   const envelope = context.createGain();
+  let start;
+  let end;
+  let played = false;
 
+  oscillator.type = 'triangle';
   oscillator.connect(envelope);
   envelope.connect(context.destination);
+  oscillator.start(0);
 
   return {
-    play: () => {
+    play: (startTime) => {
       oscillator.frequency.value = freq;
-      envelope.gain.value = 1;
-      oscillator.start(0);
+      envelope.gain.value = 0.1;
       console.log('play')
+      if (!played) {
+        start = startTime;
+      }
     },
-    stop: () => {
+    stop: (endTime) => {
       envelope.gain.value = 0;
       console.log('stop')
+      if (!played) {
+        end = endTime;
+        played = true;
+      }
+    },
+    length: () => {
+      return end - start;
     }
   };
+};
+
+const replay = () => {
+  for (const voice of history) {
+    console.log(voice.length())
+    voice.play();
+    setTimeout(() => {
+      voice.stop();
+    }, voice.length());
+  }
 }
 
 const createAudioContext = () => {
