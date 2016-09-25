@@ -14,6 +14,7 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "two.js": "^0.6.0",
+    "underscore": "^1.8.3",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.1"
   }

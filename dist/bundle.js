@@ -50,6 +50,12 @@
 
 	var keyboard = _interopRequireWildcard(_keyboard);
 
+	var _interface = __webpack_require__(2);
+
+	var _interface2 = _interopRequireDefault(_interface);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	keyboard.start();
@@ -71,6 +77,7 @@
 	var portamento = 0.05;
 	var release = 0.05;
 	var waveType = 'sawtooth';
+	var gain = 0.01;
 
 	var noteToFreq = function noteToFreq(note) {
 	  return 440 * Math.pow(2, (note - 69) / 12);
@@ -116,7 +123,7 @@
 	      oscillator.frequency.cancelScheduledValues(0);
 	      oscillator.frequency.setTargetAtTime(freq, 0, portamento);
 	      envelope.gain.cancelScheduledValues(0);
-	      envelope.gain.setTargetAtTime(0.01, 0, attack);
+	      envelope.gain.setTargetAtTime(gain, 0, attack);
 	      if (!played) {
 	        start = startTime;
 	      }
@@ -207,12 +214,16 @@
 	    release = e.target.value;
 	  };
 
+	  var gInput = document.getElementById('gain');
+	  gInput.value = gain;
+	  gInput.oninput = function (e) {
+	    gain = e.target.value;
+	  };
+
 	  var wInput = document.getElementById('wavetype');
-	  wInput.value = wavetype;
+	  wInput.value = waveType;
 	  wInput.onchange = function (e) {
-	    alert('foo');
-	    console.log(e);
-	    release = e.target.value;
+	    waveType = e.target.value;
 	  };
 	};
 
@@ -220,6 +231,30 @@
 	  render();
 	  navigator.requestMIDIAccess().then(success, failure);
 	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _two = __webpack_require__(3);
+
+	var _two2 = _interopRequireDefault(_two);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	console.log(_two2.default);
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	module.exports = Two;
 
 /***/ }
 /******/ ]);

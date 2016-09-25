@@ -4,7 +4,7 @@ module.exports = {
     filename: "dist/bundle.js"
   },
   module: {
-       loaders: [
+         loaders: [
            {
                test: /\.js$/,
                loader: 'babel-loader',
@@ -14,5 +14,8 @@ module.exports = {
                }
            }
        ]
+   },
+   "externals": {
+     "two.js": "Two"
    }
 }
