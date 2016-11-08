@@ -1,4 +1,6 @@
 import * as keyboard from './keyboard';
-import Interface from './interface';
+import render from './graphics';
+
+render(document.querySelector('.graphics'));
 
 keyboard.start();

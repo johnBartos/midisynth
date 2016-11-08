@@ -1,11 +1,7 @@
 <html>
   <head>
-    <script src="./node_modules/two.js/third-party/underscore.js"></script>
-    <script src="./node_modules/two.js/third-party/backbone.js"></script>
-    <script src="./node_modules/two.js/build/two.clean.js"></script>
   </head>
   <body>
-    <!-- <button onclick="replay()">replay</button> -->
     <label>attack</label>
     <input type="number" id="attack" step='0.05'>
     <br>
@@ -28,9 +24,20 @@
       <option value="sawtooth">sawtooth</option>
       <option value="triangle">triangle</option>
     </select>
+    <br>
 
-    <div class="interface"></div>
+    <button id='replay'>replay</button>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <canvas class="graphics" width="1920" height="1000"></canvas>
 
     <script src="dist/bundle.js"></script>
+
   </body>
 </html>
